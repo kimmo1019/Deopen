@@ -1,5 +1,5 @@
 '''
-This script is used for running Deopen model.
+This script is used for running Deopen regression model.
 Usage:
     python Deopen_regression.py -in /path/to/preprocessed_file -reads /path/to/reads_feature -out /path/to/outputfile
 '''
