@@ -1,5 +1,5 @@
 '''
-This script is used for running Deopen model.
+This script is used for running Deopen classification model.
 Usage:
     python Deopen_classification.py -in /path/to/preprocessed_file -out /path/to/outputfile
 '''
