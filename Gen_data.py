@@ -118,6 +118,6 @@ if  __name__ == "__main__" :
     parser.add_argument('-out', dest='output', type=str, help='output file')
     args = parser.parse_args()   
     dataset = generate_records(args.input,args.length,args.size)
-    save_dataset(dataset,args.out)
+    save_dataset(dataset,args.output)
  
     
