@@ -1,7 +1,7 @@
 '''
 This script is used for running Deopen regression model.
 Usage:
-    python Deopen_regression.py -in /path/to/preprocessed_file -reads /path/to/reads_feature -out /path/to/outputfile
+    THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_regression.py -in inputfile.hkl -reads readsfile.hkl -out outputfile
 '''
 import hickle as hkl
 import argparse
@@ -106,7 +106,7 @@ def save_model(model,outputfile):
 
 
 if  __name__ == "__main__" :
-    parser = argparse.ArgumentParser(description='Deopen classication model') 
+    parser = argparse.ArgumentParser(description='Deopen regression model') 
     parser.add_argument('-in', dest='input', type=str, help='file of preprocessed data')
     parser.add_argument('-reads', dest='readsfile', type=str, help='file of reads features')
     parser.add_argument('-out', dest='output', type=str, help='output file')
