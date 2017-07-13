@@ -1,7 +1,7 @@
 '''
 This script is used for running Deopen regression model.
 Usage:
-    THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_regression.py -in inputfile.hkl -reads readsfile.hkl -out outputfile
+    THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_regression.py -in <inputfile.hkl> -reads <readsfile.hkl> -out <outputfile>
 '''
 import hickle as hkl
 import argparse
