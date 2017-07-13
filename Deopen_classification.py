@@ -1,7 +1,7 @@
 '''
 This script is used for running Deopen classification model.
 Usage:
-    python Deopen_classification.py -in /path/to/preprocessed_file -out /path/to/outputfile
+    THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_classification.py -in <input_file.hkl> -out <outputfile>
 '''
 import hickle as hkl
 import argparse
@@ -92,12 +92,12 @@ def model_train(X_train, y_train,learning_rate = 1e-4,epochs = 10):
     return net
 
 def model_test(net, X_test, y_test):
-    #net.load_params_from('/path/to/weights_file')
+    #net.load_params_from('saved_weights_file')
     y_pred = net.predict(X_test)
     y_prob = net.predict_proba(X_test)
     print 'Accuracy score is {}'.format(metrics.accuracy_score(y_test, y_pred))
     print 'ROC AUC score is {}'.format(metrics.roc_auc_score(y_test, y_prob[:,-1]))
-    #hkl.dump([y_prob[:,-1],y_test],'/path/to/prediction_outcome')
+    #hkl.dump([y_prob[:,-1],y_test],'prediction_outcome')
 
 def save_model(model,outputfile):
     net.save_params_to(open(outputfile,'w'))
