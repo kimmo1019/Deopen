@@ -1,7 +1,7 @@
 '''
 This script is used for running Deopen classification model.
 Usage:
-    THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_classification.py -in <input_file.hkl> -out <outputfile>
+    THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_classification.py -in <inputfile.hkl> -out <outputfile>
 '''
 import hickle as hkl
 import argparse
