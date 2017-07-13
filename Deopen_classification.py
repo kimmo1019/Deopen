@@ -106,7 +106,7 @@ def save_model(model,outputfile):
 if  __name__ == "__main__" :
     parser = argparse.ArgumentParser(description='Deopen classication model') 
     parser.add_argument('-in', dest='input', type=str, help='file of preprocessed data')
-    parser.add_argument('-out', dest='output', type=str, help='output file')
+    parser.add_argument('-out', dest='output', type=str, help='outputfile')
     args = parser.parse_args()
     X_train, y_train, X_test, y_test = data_split(args.input)
     model = model_train(X_train, y_train)
