@@ -13,8 +13,11 @@ A hybrid deep convolutional neural network for predicting chromatin accessibilit
 
  
 ```
-# Train classification
+# Run Deopen classification model
 THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_classification.py -in <input_file.hkl> -out <outputfile>
+
+# Run Deopen regression model
+THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_regression.py -in <inputfile.hkl> -reads <readsfile.hkl> -out <outputfile>
 
 #TBA
 ```
