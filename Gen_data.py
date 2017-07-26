@@ -1,7 +1,7 @@
 '''
 This script is used for generating dataset for Deopen.
 Usage:
-    python Gen_data.py -l 1000 -s 100000 -in /path/to/inputfile -out /path/to/outputfile
+    python Gen_data.py -l 1000 -s 100000 -in <inputfile> -out <outputfile>
 '''
 import numpy as np
 from pyfasta import Fasta
@@ -9,10 +9,7 @@ import hickle as hkl
 import argparse
 import gzip
 
-'''
-Input:  Sequence
-Output: One-hot encoding matrix
-'''
+#transfrom a sequence to one-hot encoding matrix
 def seq_to_mat(seq):
     encoding_matrix = {'a':0, 'A':0, 'c':1, 'C':1, 'g':2, 'G':2, 't':3, 'T':3, 'n':4, 'N':4}
     mat = np.zeros((len(seq),5))  
@@ -21,11 +18,7 @@ def seq_to_mat(seq):
     mat = mat[:,:4]
     return mat
 
-'''
-Input:  Sequence
-Output: K-mer vector
-Default:  K=6
-'''
+#transform a sequence to K-mer vector (default: K=6)
 def seq_to_kspec(seq, K=6):
     encoding_matrix = {'a':0, 'A':0, 'c':1, 'C':1, 'g':2, 'G':2, 't':3, 'T':3, 'n':0, 'N':0}
     kspec_vec = np.zeros((4**K,1))
@@ -37,10 +30,8 @@ def seq_to_kspec(seq, K=6):
         kspec_vec[index] += 1
     return kspec_vec
 
-'''
-Input: Spot, genome,label
-Output: Features of a sample including spot, sequence, one-hot encoding matrix, K-mer vector and label
-'''
+
+#assemble all the features into a dictionary
 def get_all_feats(spot,genome,label):
     ret = {}
     ret['spot'] = spot
@@ -50,10 +41,8 @@ def get_all_feats(spot,genome,label):
     ret['y'] = label
     return ret
 
-'''
-Input: Orignal dataset
-Output: save the dataset in .hkl format 
-'''
+
+#save the preprocessed dataset in hkl format 
 def  save_dataset(origin_dataset,save_dir):
     dataset = {}
     for key in origin_dataset[0].keys():
@@ -66,11 +55,8 @@ def  save_dataset(origin_dataset,save_dir):
     print 'Dataset generation is finished!'    
 
 
-'''
-Input: Raw file
-Output: generate dataset record
-'''
-def  generate_records(input_file,sample_length,dataset_size,ratio = 1):
+#generate dataset
+def  generate_dataset(input_file,sample_length,dataset_size,ratio = 1):
     chrom_iter = 0 
     dataset=[]
     chrom_dict=[str(item) for item in range(1,23)]+['X','Y']
@@ -117,7 +103,7 @@ if  __name__ == "__main__" :
     parser.add_argument('-in', dest='input', type=str, help='file of raw input data')
     parser.add_argument('-out', dest='output', type=str, help='output file')
     args = parser.parse_args()   
-    dataset = generate_records(args.input,args.length,args.size)
+    dataset = generate_dataset(args.input,args.length,args.size)
     save_dataset(dataset,args.output)
  
     
