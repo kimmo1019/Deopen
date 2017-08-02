@@ -1,10 +1,10 @@
 '''
 This script is used for running Deopen classification model.
 Usage:
-    THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_classification.py -in <inputfile.hkl> -out <outputfile>
+    THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_classification.py -in <inputfile> -out <outputfile>
     
-    inputfile.hkl -- preprocessed data in .hkl format containing different forms of features (see data.keys()).
-    outputfile -- save the trained model (uncomment 'save_model()')
+    inputfile.hkl -- preprocessed file containing different features (hkl format)
+    outputfile -- trained model to be saved (hkl format)
 '''
 import hickle as hkl
 import argparse
