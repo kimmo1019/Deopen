@@ -1,10 +1,10 @@
 '''
 This script is used for running Deopen regression model.
 Usage:
-    THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_regression.py -in <inputfile.hkl> -reads <readsfile.hkl> -out <outputfile>
-    inputfile.hkl -- preprocessed data in .hkl format containing different forms of features (see data.keys())
-    readsfile.hkl -- reads count for each sample region
-    outputfile -- save the trained model (uncomment 'save_model()')
+    THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_regression.py -in <inputfile> -reads <readsfile> -out <outputfile>
+    inputfile.hkl -- preprocessed file containing different features (hkl format)
+    readsfile.hkl -- reads count for each sample (hkl format)
+    outputfile -- trained model to be saved (hkl format)
 '''
 import hickle as hkl
 import argparse
