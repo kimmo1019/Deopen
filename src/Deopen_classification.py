@@ -30,6 +30,7 @@ from lasagne.nonlinearities import softmax
 from lasagne.updates import adam
 from nolearn.lasagne import NeuralNet
 from nolearn.lasagne import TrainSplit
+from nolearn.lasagne import BatchIterator
 from sklearn import metrics
 floatX = theano.config.floatX
 
@@ -153,10 +154,11 @@ def model_initial(X_train,y_train,max_iter = 5):
     val_acc = np.zeros(max_iter)
     lr = theano.shared(np.float32(1e-4))
     for iteration in range(max_iter):
+        print 'Initializing weights (%d/5) ...'%(iteration+1)
         network_init = create_network()
         net_init = NeuralNet(
                 network_init,
-                max_epochs=1,
+                max_epochs=3,
                 update=adam,
                 update_learning_rate=lr,
                 train_split=TrainSplit(eval_size=0.1),
@@ -180,21 +182,24 @@ def model_train(X_train, y_train,learning_rate = 1e-4,epochs = 50):
                 batch_iterator_train=BatchIterator(batch_size=32),
                 batch_iterator_test=BatchIterator(batch_size=64),
                 #on_training_started=[LoadBestParam(iteration=val_acc.argmax())],
-                on_epoch_finished=[EarlyStopping(patience=2)],
+                on_epoch_finished=[EarlyStopping(patience=5)],
                 verbose=1)
+    print 'Loading pre-training weights...'
     net.load_params_from(params[val_acc.argmax()])
+    print 'Continue to train...'
     net.fit(X_train, y_train)
+    print 'Model training finished.'
     return net
 
 
 #model testing
-def model_test(net, X_test, y_test):
+def model_test(net, X_test, y_test, outputfile):
     #net.load_params_from('saved_weights_file')
     y_pred = net.predict(X_test)
     y_prob = net.predict_proba(X_test)
     print 'Accuracy score is {}'.format(metrics.accuracy_score(y_test, y_pred))
     print 'ROC AUC score is {}'.format(metrics.roc_auc_score(y_test, y_prob[:,-1]))
-    #hkl.dump([y_prob[:,-1],y_test],'prediction_outcome')
+    hkl.dump([y_prob[:,-1],y_test],outputfile)
 
 #save model parameters
 def save_model(model,outputfile):
@@ -210,6 +215,6 @@ if  __name__ == "__main__" :
     model_initial(X_train,y_train,5)
     model = model_train(X_train, y_train)
     #save_model(model, args.output)
-    model_test(model, X_test, y_test)
+    model_test(model, X_test, y_test,args.output)
 
 

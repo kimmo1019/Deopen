@@ -32,6 +32,7 @@ from lasagne.objectives import squared_error
 from lasagne.updates import adam
 from nolearn.lasagne import NeuralNet
 from nolearn.lasagne import TrainSplit
+from nolearn.lasagne import BatchIterator
 from sklearn import metrics
 floatX = theano.config.floatX
 
@@ -164,11 +165,12 @@ def model_initial(X_train,y_train,max_iter = 5):
     val_loss = np.zeros(max_iter)
     lr = theano.shared(np.float32(1e-4))
     for iteration in range(max_iter):
+        print 'initializing weights (%d/5) ...'%(iteration+1)
         print iteration
         network_init = create_network()
         net_init = NeuralNet(
                 network_init,
-                max_epochs=1,
+                max_epochs=3,
                 update=adam,
                 update_learning_rate=lr,
                 train_split=TrainSplit(eval_size=0.1),
@@ -183,7 +185,7 @@ def model_initial(X_train,y_train,max_iter = 5):
 
 
 #model training 
-def model_train(X_train, y_train,learning_rate = 1e-4,epochs = 30):
+def model_train(X_train, y_train,learning_rate = 1e-4,epochs = 50):
     network = create_network()
     lr = theano.shared(np.float32(learning_rate))
     net = NeuralNet(
@@ -197,10 +199,13 @@ def model_train(X_train, y_train,learning_rate = 1e-4,epochs = 30):
                 regression = True,
                 objective_loss_function = squared_error,
                 #on_training_started=[LoadBestParam(iteration=val_loss.argmin())],
-                on_epoch_finished=[EarlyStopping(patience=2)],
+                on_epoch_finished=[EarlyStopping(patience=5)],
                 verbose=1)
+    print 'loading pre-training weights...'
     net.load_params_from(params[val_loss.argmin()])
+    print 'continue to train...'
     net.fit(X_train, y_train)
+    print 'training finished'
     return net
 
 #model testing

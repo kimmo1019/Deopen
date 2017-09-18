@@ -1,6 +1,7 @@
 '''
-This script is used for generating data for Deopen training with down-sampling strategy.
+This script is used for generating data for Deopen training.
 Usage:
+    python Gen_data.py  -pos <positive_bed_file> -neg <negative_bed_file> -out <outputfile>
     python Gen_data.py -l 1000 -s 100000 -in <inputfile> -out <outputfile>
 '''
 import numpy as np
@@ -42,7 +43,7 @@ def get_all_feats(spot,genome,label):
     return ret
 
 
-#save the preprocessed dataset in hkl format 
+#save the preprocessed data in hkl format 
 def  save_dataset(origin_dataset,save_dir):
     dataset = {}
     for key in origin_dataset[0].keys():
@@ -50,60 +51,42 @@ def  save_dataset(origin_dataset,save_dir):
     dataset['seq'] = [item.encode('ascii','ignore') for item in dataset['seq']]
     for key in origin_dataset[0].keys():
         dataset[key] = np.array(dataset[key])
-    print "Start to save dataset ..."
-    hkl.dump(dataset,save_dir)    
-    print 'Dataset generation is finished!'    
+    hkl.dump(dataset,save_dir, mode='w', compression='gzip')    
+    print 'Training data generation is finished!'    
 
 
 #generate dataset
-def  generate_dataset(input_file,sample_length,dataset_size,ratio = 1):
-    chrom_iter = 0 
+def  generate_dataset(positive_file,negative_file,genome_file,sample_length = 1000):
     dataset=[]
-    chrom_dict=[str(item) for item in range(1,23)]+['X','Y']
-    DATA_PATH = './openness_pre/data'
-    genome = Fasta(DATA_PATH+'/genome.fa')
-    chromosome_len_file=DATA_PATH+'/chromosome.txt'
-    with open(chromosome_len_file,'r') as f:
-        chrom_lens = f.readlines() 
-    openness_records=[]
-    with gzip.open(input_file,'r') as f:
-        for line in f:
-            line = line.split()
-            openness_records.append([line[0], int(line[1]), int(line[2]), int(line[4]), float(line[5])/float(line[4])])  
-
-    while(len(dataset)<dataset_size):
-        chrom = 'chr'+chrom_dict[chrom_iter]
-        records_in_chrom = [item for item in openness_records if item[0]==chrom]        
-        samples_pos = [[item[0], (item[1]+item[2])/2 - sample_length/2, (item[1]+item[2])/2 + sample_length/2] for item in records_in_chrom]        
-        for each in samples_pos:
-            dataset.append(get_all_feats(each,genome,1))
-        chrom_len = int(chrom_lens[chrom_iter].strip().split()[-1])
-        obin = np.zeros((chrom_len,1))
-        for item in records_in_chrom:
-            obin[item[1]:item[2]] = 1
-        samples_neg = []
-        while len(samples_neg) < int(len(records_in_chrom)*ratio):
-            middle = np.random.randint(chrom_len)
-            start = middle - sample_length/2
-            end = middle + sample_length/2
-            if np.sum(obin[start:end]) == 0     \
-                    and  'N' not in genome[chrom][start:end]    \
-                    and  'n' not in genome[chrom][start : end] :
-                samples_neg.append([chrom,start,end])
-        for each in samples_neg:
-            dataset.append(get_all_feats(each,genome,0))
-        chrom_iter +=1
+    genome = Fasta(genome_file)
+    with open(positive_file,'r') as f_pos:
+        for line in f_pos:
+            chrom = line.rstrip('\n').split('\t')[0]
+            start = int(line.rstrip('\n').split('\t')[1])
+            end = int(line.rstrip('\n').split('\t')[2])
+            mid = (start+end)/2
+            dataset.append(get_all_feats([chrom,mid-sample_length/2,mid+sample_length/2],genome,1))
+    f_pos.close()
+    with open(negative_file,'r') as f_neg:
+        for line in f_neg:
+            chrom = line.rstrip('\n').split('\t')[0]
+            start = int(line.rstrip('\n').split('\t')[1])
+            end = int(line.rstrip('\n').split('\t')[2])
+            mid = (start+end)/2
+            dataset.append(get_all_feats([chrom,mid-sample_length/2,mid+sample_length/2],genome,0))
+    f_neg.close()
     return  dataset
         
         
 if  __name__ == "__main__" : 
     parser = argparse.ArgumentParser(description='Deopen data generation') 
+    parser.add_argument('-pos', dest='pos', type=str, help='input positive bed file')
+    parser.add_argument('-neg', dest='neg', type=str, help='input negative bed file')
+    parser.add_argument('-genome', dest='genome', type=str, help='genome file in fasta format')
     parser.add_argument('-l', dest='length', type=int, default=1000, help='sequence length')
-    parser.add_argument('-s', dest='size', type=int, default=100000, help='number of samples')
-    parser.add_argument('-in', dest='input', type=str, help='file of raw input data')
     parser.add_argument('-out', dest='output', type=str, help='output file')
     args = parser.parse_args()   
-    dataset = generate_dataset(args.input,args.length,args.size)
+    dataset = generate_dataset(args.pos,args.neg,args.genome,args.length)
     save_dataset(dataset,args.output)
  
     
