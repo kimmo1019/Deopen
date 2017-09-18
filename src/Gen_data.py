@@ -62,7 +62,7 @@ def  generate_dataset(input_file,sample_length,dataset_size,ratio = 1):
     chrom_dict=[str(item) for item in range(1,23)]+['X','Y']
     DATA_PATH = './openness_pre/data'
     genome = Fasta(DATA_PATH+'/genome.fa')
-    chromosome_len_file=DATA_PATH+'/chromosome_len.txt'
+    chromosome_len_file=DATA_PATH+'/chromosome.txt'
     with open(chromosome_len_file,'r') as f:
         chrom_lens = f.readlines() 
     openness_records=[]
