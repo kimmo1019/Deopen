@@ -1,5 +1,5 @@
 '''
-This script is used for generating dataset for Deopen.
+This script is used for generating data for Deopen training with down-sampling strategy.
 Usage:
     python Gen_data.py -l 1000 -s 100000 -in <inputfile> -out <outputfile>
 '''
