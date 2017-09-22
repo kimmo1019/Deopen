@@ -11,7 +11,8 @@ Deopen is a hybrid deep learning based framework to automati-cally learn the reg
 
 # Installation
 Download Deopen by
-```https://github.com/kimmo1019/Deopen
+```
+git clone https://github.com/kimmo1019/Deopen
 ```
 Installation has been tested in a Linux/MacOS platform with Python2.7.
 
