@@ -1,5 +1,5 @@
 # Deopen
-Deopen is a hybrid deep learning based framework to automati-cally learn the regulatory code of DNA sequences and predict chromatin accessibility.
+Deopen is a hybrid deep learning based framework to automatically learn the regulatory code of DNA sequences and predict chromatin accessibility.
 
 # Requirements
 - h5py
