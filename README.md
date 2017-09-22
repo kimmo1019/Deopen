@@ -1,5 +1,5 @@
 # Deopen
-A hybrid deep convolutional neural network for predicting chromatin accessibility
+Deopen is a hybrid deep learning based framework to automati-cally learn the regulatory code of DNA sequences and predict chromatin accessibility.
 
 # Requirements
 - h5py
@@ -8,6 +8,12 @@ A hybrid deep convolutional neural network for predicting chromatin accessibilit
 - Theano=0.8.0
 - Lasagne=0.2.dev1
 - nolearn=0.6.0
+
+# Installation
+Download Deopen by
+```https://github.com/kimmo1019/Deopen
+```
+Installation has been tested in a Linux/MacOS platform with Python2.7.
 
 # Instructions
 
