@@ -24,7 +24,7 @@ Preprocessing data for model training
 ```shell
 python Gen_data.py <options> -pos <positive_bed_file> -neg <negative_bed_file> -out <outputfile>
 ```
-*
+```
 Arguments:
   positive_bed_file: positive samples (bed format)
   e.g. chr1	9995	10995	
@@ -40,16 +40,14 @@ Arguments:
  
 Options:
   -l <int> length of sequence (default: 1000)
- *
+```
 Run Deopen classification model
 ```shell
 THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_classification.py -in <inputfile> -out <outputfile>
 ```
 ```
- Arguments:
- 
+ Arguments:  
   inputfile: preprocessed data for model training (hkl format)  
-  
   outputfile: prediction outcome to be saved (hkl format)
 ```
  Run Deopen regression model
@@ -57,12 +55,9 @@ THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_classification.py -in <in
 THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_regression.py -in <inputfile> -reads <readsfile> -out <outputfile>
 ```
 ```
- Arguments:
- 
-  inputfile: preprocessed file containing different features (hkl format)
-  
-  readsfile: reads count for each sample (hkl format)
- 
+ Arguments:  
+  inputfile: preprocessed file containing different features (hkl format)  
+  readsfile: reads count for each sample (hkl format)  
   outputfile: trained model to be saved (hkl format)
 ```
 
