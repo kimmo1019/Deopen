@@ -19,7 +19,7 @@ Installation has been tested in a Linux/MacOS platform with Python2.7.
 # Instructions
 
  
-```shell
+
 # Preprocessing data for model training
 
 python Gen_data.py <options> -pos <positive_bed_file> -neg <negative_bed_file> -out <outputfile>
@@ -56,8 +56,6 @@ THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_regression.py -in <inputf
 ##  inputfile: preprocessed file containing different features (hkl format)
 ##  readsfile: reads count for each sample (hkl format)
 ##  outputfile: trained model to be saved (hkl format)
-
-```
 
 
 # License
