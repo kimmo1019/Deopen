@@ -38,7 +38,7 @@ Arguments:
   
   outputfile: preprocessed data for model training (hkl format)
  
- Options:
+Options:
   -l <int> length of sequence (default: 1000)
 ```
 Run Deopen classification model
@@ -47,7 +47,9 @@ THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_classification.py -in <in
 ```
 ```
  Arguments:
+ 
   inputfile: preprocessed data for model training (hkl format)  
+  
   outputfile: prediction outcome to be saved (hkl format)
 ```
  Run Deopen regression model
@@ -56,8 +58,11 @@ THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_regression.py -in <inputf
 ```
 ```
  Arguments:
+ 
   inputfile: preprocessed file containing different features (hkl format)
+  
   readsfile: reads count for each sample (hkl format)
+ 
   outputfile: trained model to be saved (hkl format)
 ```
 
