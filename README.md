@@ -24,7 +24,7 @@ Preprocessing data for model training
 ```shell
 python Gen_data.py <options> -pos <positive_bed_file> -neg <negative_bed_file> -out <outputfile>
 ```
-```
+*
 Arguments:
   positive_bed_file: positive samples (bed format)
   e.g. chr1	9995	10995	
@@ -40,7 +40,7 @@ Arguments:
  
 Options:
   -l <int> length of sequence (default: 1000)
-```
+ *
 Run Deopen classification model
 ```shell
 THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_classification.py -in <inputfile> -out <outputfile>
