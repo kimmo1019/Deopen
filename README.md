@@ -61,7 +61,20 @@ THEANO_FLAGS='device=gpu,floatX=float32' python Deopen_regression.py -in <inputf
   outputfile: trained model to be saved (hkl format)
 ```
 # Citation
-**Liu Q**, Xia F, Yin Q, et al. Chromatin accessibility prediction via a hybrid deep convolutional neural network[J]. *Bioinformatics*, 2017, 1: 7.
+Liu, Qiao, et al. "Chromatin accessibility prediction via a hybrid deep convolutional neural network." Bioinformatics 34.5 (2017): 732-738.
+
+```
+@article{liu2017chromatin,
+  title={Chromatin accessibility prediction via a hybrid deep convolutional neural network},
+  author={Liu, Qiao and Xia, Fei and Yin, Qijin and Jiang, Rui},
+  journal={Bioinformatics},
+  volume={34},
+  number={5},
+  pages={732--738},
+  year={2017},
+  publisher={Oxford University Press}
+}
+```
 
 # License
 This project is licensed under the MIT License - see the LICENSE.md file for details
